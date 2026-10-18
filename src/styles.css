@@ -164,27 +164,41 @@ html { scroll-behavior: smooth; }
 body { font-family: var(--font-sans); overflow-x: hidden; }
 
 /* Envelope */
-.env-pocket { clip-path: polygon(0 50%, 50% 50%, 100% 50%, 100% 100%, 0 100%); }
-.env-flap { clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); transform-origin: 50% 0; backface-visibility: hidden; }
-.env-card { opacity: 0; }
-.seal-ring { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 50%, transparent); animation: sealPulse 2.4s ease-out infinite; }
+.bg-envelope-inner { background: #ece4d3; }
+.fold-l { background: #f3ecdd; clip-path: polygon(0 0, 52% 56%, 0 100%); }
+.fold-r { background: #f3ecdd; clip-path: polygon(100% 0, 48% 56%, 100% 100%); }
+.fold-b { background: var(--ivory); clip-path: polygon(0 100%, 50% 50%, 100% 100%); box-shadow: inset 0 0 0 1px var(--gold); }
+.env-pocket { filter: drop-shadow(0 -1px 0 color-mix(in oklab, var(--gold) 55%, transparent)); }
+.env-flap { transform-origin: 50% 0; z-index: 5; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .08)); }
+.flap-face { background: var(--ivory-soft); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.emboss { fill: none; stroke: color-mix(in oklab, var(--gold) 45%, transparent); stroke-width: 1.2; }
+.emboss circle { fill: color-mix(in oklab, var(--gold) 25%, transparent); }
+.env-card { opacity: 0; z-index: 1; }
+.env-seal { transition: scale .2s ease; filter: drop-shadow(0 3px 4px rgb(60 40 10 / .25)); }
+.env-seal:hover { scale: 1.04; }
+.env-seal:active { scale: .95; }
+.seal-ring { animation: sealPulse 2.4s ease-out infinite; }
 @keyframes sealPulse { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 45%, transparent); } 100% { box-shadow: 0 0 0 22px transparent; } }
-.env-seal:active { scale: .96; }
-.is-opening .env-seal { animation: sealOff .6s ease-in forwards; pointer-events: none; background: radial-gradient(circle, transparent 60%, transparent); }
+.is-opening .env-seal { animation: sealOff .6s ease-in forwards; pointer-events: none; }
 .is-opening .seal-ring { animation: none; }
-.is-opening .env-flap { animation: flapOpen 1s .35s cubic-bezier(.6,.05,.3,1) forwards; }
-.is-opening .env-card { animation: cardOut 1s 1.05s cubic-bezier(.2,.7,.2,1) forwards; }
+.is-opening .env-flap { animation: flapOpen 1s .4s cubic-bezier(.6,.05,.3,1) forwards; }
+.is-opening .env-card { animation: cardOut 1.1s 1.1s cubic-bezier(.2,.7,.2,1) forwards; }
 .is-opening .env-hint { opacity: 0; transition: opacity .3s; }
 .is-opening { animation: envFade .6s 2s ease forwards; }
-@keyframes sealOff { 0% { scale: 1; } 30% { scale: .92; } 100% { scale: 1.15; opacity: 0; } }
-@keyframes flapOpen { from { transform: perspective(1400px) rotateX(0); } to { transform: perspective(1400px) rotateX(-178deg); } }
-@keyframes cardOut { 0% { opacity: 1; transform: translateY(30%); } 100% { opacity: 1; transform: translateY(-12%); } }
+@keyframes sealOff { 0% { scale: 1; } 30% { scale: .9; } 100% { scale: 1.2; opacity: 0; } }
+@keyframes flapOpen { 0% { transform: perspective(1200px) rotateX(0); } 55% { z-index: 5; } 56% { z-index: 0; } 100% { transform: perspective(1200px) rotateX(-180deg); z-index: 0; } }
+@keyframes cardOut { 0% { opacity: 1; transform: translateY(25%); z-index: 6; } 100% { opacity: 1; transform: translateY(-8%); z-index: 6; } }
 @keyframes envFade { to { opacity: 0; transform: scale(1.04); } }
 
 /* Cover */
-.cover-wash { background: radial-gradient(ellipse 70% 45% at 50% 28%, color-mix(in oklab, var(--ivory-soft) 72%, transparent), transparent 75%); }
-.cover-img { animation: slowZoom 18s ease-out forwards; }
-@keyframes slowZoom { from { transform: scale(1.06); } to { transform: scale(1); } }
+.sun { animation: sunGlow 6s ease-in-out infinite alternate; }
+@keyframes sunGlow { to { opacity: .65; } }
+.ripple { animation: ripple 5s ease-in-out infinite; }
+@keyframes ripple { 50% { stroke-opacity: .15; transform: translateX(6px); } }
+.float { animation: floaty 7s ease-in-out infinite alternate; }
+@keyframes floaty { to { translate: 8px 1px; } }
+.maps-btn { transition: background-color .25s, transform .25s, box-shadow .25s; }
+.maps-btn:hover { background: color-mix(in oklab, var(--gold) 28%, transparent); transform: translateY(-2px); box-shadow: 0 6px 16px -8px color-mix(in oklab, var(--gold-deep) 60%, transparent); }
 .rise { opacity: 0; animation: rise 1.1s ease forwards; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .scroll-line { animation: scrollHint 2.2s ease-in-out infinite; transform-origin: top; }
