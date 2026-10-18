@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import envelope from "@/assets/envelope.png.asset.json";
-import scenic from "@/assets/scenic.png.asset.json";
 import p1 from "@/assets/photo1.jpg.asset.json";
 import p2 from "@/assets/photo2.jpg.asset.json";
 import p3 from "@/assets/photo3.jpg.asset.json";
@@ -13,7 +11,7 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Aswin & Soumya · Wedding Invitation · 29 November 2026" },
       { name: "description", content: "You are warmly invited to the wedding of Aswin & Soumya on Sunday, 29 November 2026 at Vakathanam, Kottayam." },
-      { property: "og:title", content: "Aswin & Soumya · ശുഭ വിവാഹം" },
+      { property: "og:title", content: "Aswin & Soumya · The Wedding" },
       { property: "og:description", content: "Sunday, 29 November 2026 · Vakathanam, Kottayam. Your presence and blessings will make our day complete." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -62,47 +60,166 @@ function Invitation() {
   );
 }
 
-/* ---------------- Envelope ---------------- */
-function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void }) {
-  const bg = { backgroundImage: `url(${envelope.url})` };
+/* ---------------- Envelope (native, responsive) ---------------- */
+function Sprig({ className = "" }: { className?: string }) {
   return (
-    <div className={`env fixed inset-0 z-50 overflow-hidden bg-ivory ${opening ? "is-opening" : ""}`}>
-      {/* invitation card */}
-      <div className="env-card absolute inset-x-0 mx-auto top-[18%] flex h-[46%] w-[72%] max-w-sm flex-col items-center justify-center border border-gold/50 bg-ivory-soft text-center">
-        <p className="font-ml text-sm text-gold">ശുഭ വിവാഹം</p>
-        <p className="mt-3 font-serif text-4xl text-ink">Aswin <span className="italic text-gold">&</span> Soumya</p>
+    <svg viewBox="0 0 120 120" aria-hidden="true" className={`emboss ${className}`}>
+      <path d="M10 110 C40 80 60 60 110 10" />
+      {[20, 38, 56, 74, 92].map((p, i) => (
+        <g key={p}>
+          <path d={`M${p} ${120 - p} q ${i % 2 ? 14 : -4} ${i % 2 ? 2 : -14} ${i % 2 ? 18 : 6} ${i % 2 ? -10 : -20}`} />
+          <circle cx={p + (i % 2 ? 20 : 7)} cy={120 - p - (i % 2 ? 10 : 22)} r="3.5" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function Seal() {
+  const petals = Array.from({ length: 18 }, (_, i) => i * 20);
+  return (
+    <svg viewBox="0 0 200 200" aria-hidden="true" className="h-full w-full">
+      <defs>
+        <radialGradient id="wax" cx="38%" cy="32%" r="75%">
+          <stop offset="0" stopColor="#f3e2b4" />
+          <stop offset=".45" stopColor="#c9a65e" />
+          <stop offset="1" stopColor="#8a6a30" />
+        </radialGradient>
+      </defs>
+      <g fill="url(#wax)">
+        {petals.map((a) => <circle key={a} cx={100 + 78 * Math.cos((a * Math.PI) / 180)} cy={100 + 78 * Math.sin((a * Math.PI) / 180)} r="16" />)}
+        <circle cx="100" cy="100" r="82" />
+      </g>
+      <circle cx="100" cy="100" r="62" fill="none" stroke="#7a5c26" strokeOpacity=".55" strokeWidth="2" />
+      <circle cx="100" cy="100" r="56" fill="none" stroke="#fff3cf" strokeOpacity=".5" strokeWidth="1" />
+      <text x="100" y="114" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="46" fontStyle="italic" fill="#6e5222" fillOpacity=".85">A&amp;S</text>
+    </svg>
+  );
+}
+
+function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void }) {
+  return (
+    <div className={`env fixed inset-0 z-50 overflow-hidden bg-envelope-inner ${opening ? "is-opening" : ""}`}>
+      {/* invitation card, tucked inside */}
+      <div className="env-card absolute inset-x-0 top-[14%] mx-auto flex h-[52%] w-[min(80vw,440px)] flex-col items-center justify-center border border-gold/60 bg-ivory-soft px-6 text-center">
+        <div className="absolute inset-2 border border-gold/30" />
+        <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-gold-deep">The Wedding of</p>
+        <p className="mt-3 font-serif text-[clamp(2rem,8vw,3rem)] leading-tight text-ink">Aswin <span className="italic text-gold">&amp;</span> Soumya</p>
         <p className="mt-3 font-sans text-[10px] uppercase tracking-[0.35em] text-ink/70">29 · 11 · 2026</p>
       </div>
-      {/* bottom pocket hides card's lower part */}
-      <div className="env-pocket pointer-events-none absolute inset-0 bg-cover bg-center" style={bg} />
+
+      {/* pocket: side + bottom folds */}
+      <div className="env-pocket pointer-events-none absolute inset-0">
+        <div className="fold-l absolute inset-0" />
+        <div className="fold-r absolute inset-0" />
+        <div className="fold-b absolute inset-0" />
+        <Sprig className="absolute bottom-[4%] left-[4%] w-[min(26vw,170px)]" />
+        <Sprig className="absolute bottom-[4%] right-[4%] w-[min(26vw,170px)] -scale-x-100" />
+      </div>
+
       {/* top flap */}
-      <div className="env-flap pointer-events-none absolute inset-0 bg-cover bg-center" style={bg} />
+      <div className="env-flap pointer-events-none absolute inset-x-0 top-0 h-[56%]">
+        <div className="flap-face absolute inset-0" />
+        <Sprig className="absolute left-1/2 top-[8%] w-[min(22vw,130px)] -translate-x-1/2 rotate-[135deg] opacity-80" />
+      </div>
+
       <button
         type="button"
         onClick={onOpen}
         aria-label="Break the seal to open the invitation"
-        className="env-seal absolute z-10 left-1/2 top-1/2 h-[21vh] w-[21vh] max-w-[36vw] max-h-[36vw] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-gold"
+        className="env-seal absolute left-1/2 top-[56%] z-10 -ml-[var(--s)] -mt-[var(--s)] h-[calc(var(--s)*2)] w-[calc(var(--s)*2)] cursor-pointer rounded-full [--s:clamp(46px,11vmin,80px)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
       >
-        <span className="seal-ring absolute inset-0 rounded-full" />
+        <span className="seal-ring absolute inset-[6%] rounded-full" />
+        <Seal />
       </button>
-      <p className="env-hint pointer-events-none absolute bottom-[8%] w-full text-center font-sans text-[10px] uppercase tracking-[0.4em] text-ink/60">
-        Tap the seal
+      <p className="env-hint pointer-events-none absolute bottom-[7%] w-full text-center font-sans text-[10px] uppercase tracking-[0.4em] text-ink/60">
+        Tap the seal to open
       </p>
     </div>
   );
 }
 
-/* ---------------- Cover ---------------- */
+/* ---------------- Cover (native, responsive) ---------------- */
+function Landscape() {
+  return (
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true" className="absolute inset-0 h-full w-full">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="var(--powder)" />
+          <stop offset=".75" stopColor="var(--ivory-soft)" />
+          <stop offset="1" stopColor="#f4e3c0" />
+        </linearGradient>
+        <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#e9dcc0" />
+          <stop offset="1" stopColor="#a9c0cf" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#sky)" />
+      <circle cx="200" cy="168" r="14" fill="#f6d898" opacity=".9" className="sun" />
+      <path d="M0 212 L40 180 L70 196 L120 150 L160 186 L200 160 L250 190 L290 156 L340 192 L370 176 L400 196 V214 H0Z" fill="#b8c9d4" />
+      <path d="M0 214 L50 196 L95 206 L150 184 L210 204 L260 188 L320 206 L400 194 V216 H0Z" fill="#8fa6b5" />
+      <rect y="214" width="400" height="86" fill="url(#lake)" />
+      <ellipse cx="200" cy="222" rx="10" ry="3" fill="#f6d898" opacity=".7" />
+      {[230, 246, 264, 284].map((y, i) => (
+        <path key={y} className="ripple" style={{ animationDelay: `${i * 0.8}s` }} d={`M${150 - i * 30} ${y} q ${50 + i * 30} -4 ${100 + i * 60} 0`} stroke="#fffcf7" strokeOpacity=".55" fill="none" strokeWidth=".8" />
+      ))}
+      {[[168, 258], [236, 272], [252, 240], [150, 286], [120, 262], [290, 280]].map(([x, y]) => (
+        <g key={x} className="float" transform={`translate(${x} ${y})`}>
+          {[0, 72, 144, 216, 288].map((a) => <ellipse key={a} rx="2.4" ry="1.2" transform={`rotate(${a}) translate(2 0)`} fill="#fffcf7" />)}
+          <circle r="1" fill="#e2c27e" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function Arch() {
+  const blossoms = [[60, 70], [92, 38], [140, 22], [200, 16], [260, 22], [308, 38], [340, 70], [38, 120], [362, 120], [30, 180], [370, 190]];
+  return (
+    <svg viewBox="0 0 400 600" preserveAspectRatio="none" aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full">
+      {/* stone frame: everything outside the arch */}
+      <path fillRule="evenodd" fill="var(--ivory)" d="M0 0H400V600H0Z M26 600 V200 C26 70 120 26 200 26 C280 26 374 70 374 200 V600Z" />
+      <path fill="none" stroke="var(--gold)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" d="M26 600 V200 C26 70 120 26 200 26 C280 26 374 70 374 200 V600" />
+      <path fill="none" stroke="var(--gold)" strokeOpacity=".45" strokeWidth="1" vectorEffect="non-scaling-stroke" d="M16 600 V200 C16 62 116 14 200 14 C284 14 384 62 384 200 V600" />
+      {/* curtains */}
+      <path className="curtain-l" fill="var(--ivory-soft)" opacity=".85" d="M26 200 C26 120 60 70 100 50 C70 140 60 300 70 600 H26Z" />
+      <path className="curtain-r" fill="var(--ivory-soft)" opacity=".85" d="M374 200 C374 120 340 70 300 50 C330 140 340 300 330 600 H374Z" />
+      {/* vines */}
+      <g fill="none" stroke="#6f8a5e" strokeWidth="1.4" vectorEffect="non-scaling-stroke" className="vine">
+        <path d="M30 230 C50 150 90 60 200 30 C310 60 350 150 370 230" />
+        <path d="M60 80 C58 130 64 170 56 230" />
+        <path d="M340 80 C342 130 336 170 344 240" />
+        <path d="M120 40 C118 80 124 100 118 130" />
+        <path d="M280 40 C282 80 276 100 282 140" />
+      </g>
+      <g fill="#7f9b6c">
+        {[[48, 160], [62, 120], [118, 110], [282, 120], [340, 130], [352, 190], [74, 60], [326, 60], [160, 28], [240, 28]].map(([x, y], i) => (
+          <ellipse key={i} cx={x} cy={y} rx="6" ry="3" transform={`rotate(${i * 37} ${x} ${y})`} />
+        ))}
+      </g>
+      <g>
+        {blossoms.map(([x, y]) => (
+          <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}>
+            {[0, 72, 144, 216, 288].map((a) => <ellipse key={a} rx="4.5" ry="2.6" transform={`rotate(${a}) translate(3.5 0)`} fill="#fffcf7" stroke="#e8dcc4" strokeWidth=".5" />)}
+            <circle r="1.8" fill="var(--gold)" />
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
 function Cover() {
   return (
-    <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden">
-      <img src={scenic.url} alt="Stone arch with blossoms opening onto a golden-hour mountain lake" className="cover-img absolute inset-0 h-full w-full object-cover object-[50%_60%]" />
-      <div className="cover-wash absolute inset-0" />
-      <div className="relative z-10 mx-auto flex h-full max-w-md flex-col items-center px-6 pt-[13svh] text-center text-ink">
-        <p className="rise font-ml text-lg text-ink sm:text-xl" style={{ animationDelay: ".2s" }}>ശുഭ വിവാഹം</p>
-        <p className="rise mt-4 font-sans text-[10px] uppercase tracking-[0.45em] text-ink/80" style={{ animationDelay: ".4s" }}>The Wedding of</p>
-        <h1 className="rise mt-3 font-serif text-[clamp(3rem,14vw,5.5rem)] leading-[0.95] text-ink" style={{ animationDelay: ".6s" }}>
-          Aswin <span className="block font-light italic text-gold-deep">&</span> Soumya
+    <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ivory">
+      <div className="absolute inset-0">
+        <Landscape />
+        <Arch />
+      </div>
+      <div className="relative z-10 mx-auto flex h-full max-w-md flex-col items-center px-8 pt-[max(16svh,90px)] text-center text-ink">
+        <p className="rise font-sans text-[10px] uppercase tracking-[0.45em] text-slate-ink" style={{ animationDelay: ".3s" }}>The Wedding of</p>
+        <h1 className="rise mt-4 font-serif text-[clamp(2.8rem,13vw,5.5rem)] leading-[0.95] text-ink" style={{ animationDelay: ".6s" }}>
+          Aswin <span className="block font-light italic text-gold-deep">&amp;</span> Soumya
         </h1>
         <div className="rise mt-6 flex items-center gap-4 text-ink" style={{ animationDelay: ".9s" }}>
           <span className="font-sans text-[10px] uppercase tracking-[0.35em]">Sunday</span>
@@ -110,8 +227,8 @@ function Cover() {
           <span className="font-sans text-[10px] uppercase tracking-[0.35em]">November 2026</span>
         </div>
       </div>
-      <a href="#invitation" aria-label="Scroll to invitation" className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-ivory-soft">
-        <span className="scroll-line block h-10 w-px bg-ivory-soft/80" />
+      <a href="#invitation" aria-label="Scroll to invitation" className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2">
+        <span className="scroll-line block h-10 w-px bg-slate-ink/70" />
       </a>
     </section>
   );
@@ -158,7 +275,7 @@ function Announcement() {
       </Reveal>
       <Reveal className="mx-auto mt-16 max-w-xl">
         <div className="bg-powder px-4 py-10 text-center">
-          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-slate-ink">Counting down to Muhurtham</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-slate-ink">Counting down to the ceremony</p>
           {t?.done ? (
             <p className="mt-5 font-serif text-3xl text-ink">The day has arrived — thank you for your blessings.</p>
           ) : (
@@ -188,15 +305,15 @@ function Events() {
             <Reveal key={e.no} className="grid grid-cols-[auto_minmax(0,1fr)] gap-5 py-10 sm:gap-10">
               <span className="font-serif text-5xl font-light italic text-gold sm:text-6xl">{e.no}</span>
               <div className="min-w-0">
-                <p className="font-ml text-sm text-gold-deep">{e.ml}</p>
-                <h3 className="mt-1 font-serif text-3xl text-ink">{e.title}</h3>
+                <h3 className="font-serif text-3xl text-ink">{e.title}</h3>
                 <dl className="mt-5 space-y-3 font-sans text-sm text-ink/80">
                   <div><dt className="text-[10px] uppercase tracking-[0.3em] text-slate-ink">Date</dt><dd>{e.date}</dd></div>
                   <div><dt className="text-[10px] uppercase tracking-[0.3em] text-slate-ink">Time</dt><dd>{e.time}</dd></div>
                   <div><dt className="text-[10px] uppercase tracking-[0.3em] text-slate-ink">Venue</dt><dd>{e.venue}, {e.place}</dd></div>
                 </dl>
-                <a href={e.map} target="_blank" rel="noreferrer" className="mt-6 inline-block border-b border-gold pb-1 font-sans text-[11px] uppercase tracking-[0.3em] text-ink hover:text-gold-deep">
-                  Open in Maps →
+                <a href={e.map} target="_blank" rel="noreferrer" className="maps-btn mt-7 inline-flex min-h-12 items-center gap-3 rounded-full border border-gold bg-gold/15 px-6 font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-ink">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-gold-deep"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" /></svg>
+                  Open in Maps
                 </a>
               </div>
             </Reveal>
@@ -301,7 +418,7 @@ function Closing() {
   return (
     <section className="bg-slate-ink px-6 py-28 text-center text-ivory-soft">
       <Reveal className="mx-auto max-w-lg">
-        <p className="font-ml text-gold">ശുഭ വിവാഹം</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-gold">With love</p>
         <p className="mt-6 font-serif text-3xl leading-snug sm:text-4xl">Your presence and blessings will make our day complete.</p>
         <div className="mx-auto my-8 h-px w-24 bg-gold" />
         <p className="font-serif text-5xl italic">Soumya <span className="text-gold">&</span> Aswin</p>

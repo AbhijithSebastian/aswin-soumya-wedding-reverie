@@ -5,7 +5,6 @@ export const events = [
   {
     no: "01",
     title: "Wedding Ceremony",
-    ml: "മുഹൂർത്തം",
     date: "Sunday, 29 November 2026",
     time: "11:30 AM – 12:30 PM",
     venue: "St. Mathews Knanaya Church",
@@ -15,7 +14,6 @@ export const events = [
   {
     no: "02",
     title: "Post-Wedding Reception",
-    ml: "സൽക്കാരം",
     date: "Sunday, 29 November 2026",
     time: "6:00 PM",
     venue: "St. Mary's Knanaya Catholic Church",
