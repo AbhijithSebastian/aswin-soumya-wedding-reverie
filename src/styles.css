@@ -154,7 +154,6 @@
   --color-charcoal: var(--charcoal);
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Jost", system-ui, sans-serif;
-  --font-ml: "Noto Serif Malayalam", serif;
 }
 :root {
   --ivory: #f8f5ee; --ivory-soft: #fffcf7; --powder: #dce8f0; --gold: #c5a66a;

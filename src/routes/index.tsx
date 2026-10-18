@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import envelope from "@/assets/envelope.png.asset.json";
-import scenic from "@/assets/scenic.png.asset.json";
 import p1 from "@/assets/photo1.jpg.asset.json";
 import p2 from "@/assets/photo2.jpg.asset.json";
 import p3 from "@/assets/photo3.jpg.asset.json";
@@ -13,7 +11,7 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Aswin & Soumya · Wedding Invitation · 29 November 2026" },
       { name: "description", content: "You are warmly invited to the wedding of Aswin & Soumya on Sunday, 29 November 2026 at Vakathanam, Kottayam." },
-      { property: "og:title", content: "Aswin & Soumya · ശുഭ വിവാഹം" },
+      { property: "og:title", content: "Aswin & Soumya · The Wedding" },
       { property: "og:description", content: "Sunday, 29 November 2026 · Vakathanam, Kottayam. Your presence and blessings will make our day complete." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -158,7 +156,7 @@ function Announcement() {
       </Reveal>
       <Reveal className="mx-auto mt-16 max-w-xl">
         <div className="bg-powder px-4 py-10 text-center">
-          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-slate-ink">Counting down to Muhurtham</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-slate-ink">Counting down to the ceremony</p>
           {t?.done ? (
             <p className="mt-5 font-serif text-3xl text-ink">The day has arrived — thank you for your blessings.</p>
           ) : (
@@ -188,8 +186,7 @@ function Events() {
             <Reveal key={e.no} className="grid grid-cols-[auto_minmax(0,1fr)] gap-5 py-10 sm:gap-10">
               <span className="font-serif text-5xl font-light italic text-gold sm:text-6xl">{e.no}</span>
               <div className="min-w-0">
-                <p className="font-ml text-sm text-gold-deep">{e.ml}</p>
-                <h3 className="mt-1 font-serif text-3xl text-ink">{e.title}</h3>
+                <h3 className="font-serif text-3xl text-ink">{e.title}</h3>
                 <dl className="mt-5 space-y-3 font-sans text-sm text-ink/80">
                   <div><dt className="text-[10px] uppercase tracking-[0.3em] text-slate-ink">Date</dt><dd>{e.date}</dd></div>
                   <div><dt className="text-[10px] uppercase tracking-[0.3em] text-slate-ink">Time</dt><dd>{e.time}</dd></div>
@@ -301,7 +298,7 @@ function Closing() {
   return (
     <section className="bg-slate-ink px-6 py-28 text-center text-ivory-soft">
       <Reveal className="mx-auto max-w-lg">
-        <p className="font-ml text-gold">ശുഭ വിവാഹം</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-gold">With love</p>
         <p className="mt-6 font-serif text-3xl leading-snug sm:text-4xl">Your presence and blessings will make our day complete.</p>
         <div className="mx-auto my-8 h-px w-24 bg-gold" />
         <p className="font-serif text-5xl italic">Soumya <span className="text-gold">&</span> Aswin</p>
