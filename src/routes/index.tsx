@@ -107,7 +107,7 @@ function Cover() {
         <div className="rise mt-6 flex items-center gap-4 text-ink" style={{ animationDelay: ".9s" }}>
           <span className="font-sans text-[10px] uppercase tracking-[0.35em]">Sunday</span>
           <span className="border-x border-gold px-4 font-serif text-4xl">29</span>
-          <span className="font-sans text-[10px] uppercase tracking-[0.35em]">Nov 2026</span>
+          <span className="font-sans text-[10px] uppercase tracking-[0.35em]">November 2026</span>
         </div>
       </div>
       <a href="#invitation" aria-label="Scroll to invitation" className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-ivory-soft">
