@@ -124,7 +124,7 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } }, { threshold: 0.15 });
+    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setShown(true); io.disconnect(); } }, { threshold: 0.15 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -266,26 +266,26 @@ function Gallery() {
         <Heading eyebrow="Moments" title="Gallery" />
         <div className="mt-14 grid grid-cols-2 gap-3 sm:gap-5">
           {photos.map((p, i) => (
-            <Reveal key={p.src} className={layout[i].includes("col-span-2") ? "col-span-2" : ""}>
+            <Reveal key={p.src} className={layout[i]!.includes("col-span-2") ? "col-span-2" : ""}>
               <button ref={(el) => { triggers.current[i] = el; }} type="button" onClick={() => show(i)} aria-label={`Open photo ${i + 1}`} className="group block w-full overflow-hidden">
-                <img src={p.src} alt={p.alt} loading="lazy" decoding="async" className={`w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${layout[i].replace("col-span-2 ", "")}`} />
+                <img src={p.src} alt={p.alt} loading="lazy" decoding="async" className={`w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${layout[i]!.replace("col-span-2 ", "")}`} />
               </button>
             </Reveal>
           ))}
         </div>
       </div>
 
-      {idx !== null && (
+      {idx !== null && photos[idx] && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label={`Photo ${idx + 1} of ${n}`}
           className={`fixed inset-0 z-[60] flex items-center justify-center bg-charcoal/95 transition-opacity duration-300 ${visible ? "opacity-100" : "opacity-0"}`}
           onClick={(e) => { if (e.target === e.currentTarget) close(); }}
-          onTouchStart={(e) => { touchX.current = e.touches[0].clientX; }}
-          onTouchEnd={(e) => { const dx = e.changedTouches[0].clientX - touchX.current; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); }}
+          onTouchStart={(e) => { touchX.current = e.touches[0]!.clientX; }}
+          onTouchEnd={(e) => { const dx = e.changedTouches[0]!.clientX - touchX.current; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); }}
         >
-          <img key={idx} src={photos[idx].src} alt={photos[idx].alt} className={`max-h-[86svh] max-w-[92vw] object-contain transition-transform duration-300 ${visible ? "scale-100" : "scale-95"}`} />
+          <img key={idx} src={photos[idx]!.src} alt={photos[idx]!.alt} className={`max-h-[86svh] max-w-[92vw] object-contain transition-transform duration-300 ${visible ? "scale-100" : "scale-95"}`} />
           <button type="button" autoFocus onClick={close} aria-label="Close" className="absolute right-3 top-3 h-12 w-12 font-sans text-3xl font-light text-ivory-soft">×</button>
           <button type="button" onClick={() => step(-1)} aria-label="Previous photo" className="absolute left-1 top-1/2 h-14 w-12 -translate-y-1/2 font-serif text-4xl text-ivory-soft/80 hover:text-ivory-soft">‹</button>
           <button type="button" onClick={() => step(1)} aria-label="Next photo" className="absolute right-1 top-1/2 h-14 w-12 -translate-y-1/2 font-serif text-4xl text-ivory-soft/80 hover:text-ivory-soft">›</button>
