@@ -74,14 +74,14 @@ function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void })
         <p className="mt-3 font-sans text-[10px] uppercase tracking-[0.35em] text-ink/70">29 · 11 · 2026</p>
       </div>
       {/* bottom pocket hides card's lower part */}
-      <div className="env-pocket absolute inset-0 bg-cover bg-center" style={bg} />
+      <div className="env-pocket pointer-events-none absolute inset-0 bg-cover bg-center" style={bg} />
       {/* top flap */}
-      <div className="env-flap absolute inset-0 bg-cover bg-center" style={bg} />
+      <div className="env-flap pointer-events-none absolute inset-0 bg-cover bg-center" style={bg} />
       <button
         type="button"
         onClick={onOpen}
         aria-label="Break the seal to open the invitation"
-        className="env-seal absolute left-1/2 top-1/2 h-[21vh] w-[21vh] max-w-[36vw] max-h-[36vw] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-gold"
+        className="env-seal absolute z-10 left-1/2 top-1/2 h-[21vh] w-[21vh] max-w-[36vw] max-h-[36vw] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-gold"
       >
         <span className="seal-ring absolute inset-0 rounded-full" />
       </button>
