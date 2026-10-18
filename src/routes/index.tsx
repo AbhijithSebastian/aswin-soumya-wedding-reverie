@@ -68,7 +68,7 @@ function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void })
   return (
     <div className={`env fixed inset-0 z-50 overflow-hidden bg-ivory ${opening ? "is-opening" : ""}`}>
       {/* invitation card */}
-      <div className="env-card absolute left-1/2 top-[18%] flex h-[46%] w-[72%] max-w-sm -translate-x-1/2 flex-col items-center justify-center border border-gold/50 bg-ivory-soft text-center">
+      <div className="env-card absolute inset-x-0 mx-auto top-[18%] flex h-[46%] w-[72%] max-w-sm flex-col items-center justify-center border border-gold/50 bg-ivory-soft text-center">
         <p className="font-ml text-sm text-gold">ശുഭ വിവാഹം</p>
         <p className="mt-3 font-serif text-4xl text-ink">Aswin <span className="italic text-gold">&</span> Soumya</p>
         <p className="mt-3 font-sans text-[10px] uppercase tracking-[0.35em] text-ink/70">29 · 11 · 2026</p>
