@@ -178,7 +178,7 @@ body { font-family: var(--font-sans); overflow-x: hidden; }
 .is-opening .env-hint { opacity: 0; transition: opacity .3s; }
 .is-opening { animation: envFade .6s 2s ease forwards; }
 @keyframes sealOff { 0% { transform: translate(-50%,-50%) scale(1); } 30% { transform: translate(-50%,-50%) scale(.92); } 100% { transform: translate(-50%,-50%) scale(1.15); opacity: 0; } }
-@keyframes flapOpen { to { transform: rotateX(-178deg); opacity: .0; } }
+@keyframes flapOpen { from { transform: perspective(1400px) rotateX(0); } to { transform: perspective(1400px) rotateX(-178deg); } }
 @keyframes cardOut { 0% { opacity: 1; transform: translate(-50%, 30%); } 100% { opacity: 1; transform: translate(-50%, -12%); } }
 @keyframes envFade { to { opacity: 0; transform: scale(1.04); } }
 /* The seal is baked into the artwork; hide it on the flap+pocket while opening by fading the seal area */
