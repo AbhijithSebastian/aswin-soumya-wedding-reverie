@@ -67,7 +67,6 @@ function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void })
   const bg = { backgroundImage: `url(${envelope.url})` };
   return (
     <div className={`env fixed inset-0 z-50 overflow-hidden bg-ivory ${opening ? "is-opening" : ""}`} style={{ perspective: "1400px" }}>
-      <div className="absolute inset-0 bg-cover bg-center" style={bg} />
       {/* invitation card */}
       <div className="env-card absolute left-1/2 top-[18%] flex h-[46%] w-[72%] max-w-sm -translate-x-1/2 flex-col items-center justify-center border border-gold/50 bg-ivory-soft text-center">
         <p className="font-ml text-sm text-gold">ശുഭ വിവാഹം</p>
