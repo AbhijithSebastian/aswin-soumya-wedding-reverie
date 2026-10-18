@@ -170,19 +170,17 @@ body { font-family: var(--font-sans); overflow-x: hidden; }
 .env-card { transform: translate(-50%, 0); opacity: 0; }
 .seal-ring { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 50%, transparent); animation: sealPulse 2.4s ease-out infinite; }
 @keyframes sealPulse { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 45%, transparent); } 100% { box-shadow: 0 0 0 22px transparent; } }
-.env-seal:active { transform: translate(-50%, -50%) scale(.96); }
+.env-seal:active { scale: .96; }
 .is-opening .env-seal { animation: sealOff .6s ease-in forwards; pointer-events: none; background: radial-gradient(circle, transparent 60%, transparent); }
 .is-opening .seal-ring { animation: none; }
 .is-opening .env-flap { animation: flapOpen 1s .35s cubic-bezier(.6,.05,.3,1) forwards; }
 .is-opening .env-card { animation: cardOut 1s 1.05s cubic-bezier(.2,.7,.2,1) forwards; }
 .is-opening .env-hint { opacity: 0; transition: opacity .3s; }
 .is-opening { animation: envFade .6s 2s ease forwards; }
-@keyframes sealOff { 0% { transform: translate(-50%,-50%) scale(1); } 30% { transform: translate(-50%,-50%) scale(.92); } 100% { transform: translate(-50%,-50%) scale(1.15); opacity: 0; } }
+@keyframes sealOff { 0% { scale: 1; } 30% { scale: .92; } 100% { scale: 1.15; opacity: 0; } }
 @keyframes flapOpen { from { transform: perspective(1400px) rotateX(0); } to { transform: perspective(1400px) rotateX(-178deg); } }
 @keyframes cardOut { 0% { opacity: 1; transform: translate(-50%, 30%); } 100% { opacity: 1; transform: translate(-50%, -12%); } }
 @keyframes envFade { to { opacity: 0; transform: scale(1.04); } }
-/* The seal is baked into the artwork; hide it on the flap+pocket while opening by fading the seal area */
-.is-opening .env-flap, .is-opening .env-pocket { }
 
 /* Cover */
 .cover-wash { background: radial-gradient(ellipse 70% 45% at 50% 28%, color-mix(in oklab, var(--ivory-soft) 72%, transparent), transparent 75%); }
