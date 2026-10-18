@@ -155,7 +155,7 @@ function Landscape() {
         </linearGradient>
       </defs>
       <rect width="400" height="300" fill="url(#sky)" />
-      <circle cx="200" cy="208" r="16" fill="#f6d898" opacity=".9" className="sun" />
+      <circle cx="200" cy="168" r="14" fill="#f6d898" opacity=".9" className="sun" />
       <path d="M0 212 L40 180 L70 196 L120 150 L160 186 L200 160 L250 190 L290 156 L340 192 L370 176 L400 196 V214 H0Z" fill="#b8c9d4" />
       <path d="M0 214 L50 196 L95 206 L150 184 L210 204 L260 188 L320 206 L400 194 V216 H0Z" fill="#8fa6b5" />
       <rect y="214" width="400" height="86" fill="url(#lake)" />
@@ -163,7 +163,7 @@ function Landscape() {
       {[230, 246, 264, 284].map((y, i) => (
         <path key={y} className="ripple" style={{ animationDelay: `${i * 0.8}s` }} d={`M${150 - i * 30} ${y} q ${50 + i * 30} -4 ${100 + i * 60} 0`} stroke="#fffcf7" strokeOpacity=".55" fill="none" strokeWidth=".8" />
       ))}
-      {[[120, 258], [260, 272], [310, 250], [80, 284]].map(([x, y]) => (
+      {[[168, 258], [236, 272], [252, 240], [150, 286], [120, 262], [290, 280]].map(([x, y]) => (
         <g key={x} className="float" transform={`translate(${x} ${y})`}>
           {[0, 72, 144, 216, 288].map((a) => <ellipse key={a} rx="2.4" ry="1.2" transform={`rotate(${a}) translate(2 0)`} fill="#fffcf7" />)}
           <circle r="1" fill="#e2c27e" />
