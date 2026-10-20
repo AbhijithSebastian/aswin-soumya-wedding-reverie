@@ -1,11 +1,28 @@
 // All wedding content lives here so it can be edited in one place.
-export const WEDDING_START = new Date("2026-11-29T11:30:00+05:30"); // Asia/Kolkata
 
-export const events = [
+/** Ceremony target date: Sunday, 29 November 2026 at 11:30 AM IST (Asia/Kolkata) */
+export const WEDDING_START = new Date("2026-11-29T11:30:00+05:30");
+export const CEREMONY_TARGET = WEDDING_START;
+
+/** Reception target date: Sunday, 29 November 2026 at 6:00 PM IST (Asia/Kolkata) */
+export const RECEPTION_TARGET = new Date("2026-11-29T18:00:00+05:30");
+
+export interface WeddingEvent {
+  no: string;
+  title: string;
+  sub: string;
+  date: string;
+  time: string;
+  venue: string;
+  place: string;
+  map: string;
+}
+
+export const events: WeddingEvent[] = [
   {
     no: "01",
     title: "Wedding Ceremony",
-    ml: "മുഹൂർത്തം",
+    sub: "Auspicious Muhurtham",
     date: "Sunday, 29 November 2026",
     time: "11:30 AM – 12:30 PM",
     venue: "St. Mathews Knanaya Church",
@@ -15,7 +32,7 @@ export const events = [
   {
     no: "02",
     title: "Post-Wedding Reception",
-    ml: "സൽക്കാരം",
+    sub: "Celebration & Dinner",
     date: "Sunday, 29 November 2026",
     time: "6:00 PM",
     venue: "St. Mary's Knanaya Catholic Church",
@@ -24,7 +41,15 @@ export const events = [
   },
 ];
 
-export const families = [
+export interface FamilyInfo {
+  role: string;
+  name: string;
+  relation: string;
+  parents: [string, string];
+  address: [string, string];
+}
+
+export const families: FamilyInfo[] = [
   {
     role: "Bride",
     name: "Soumya",
@@ -41,9 +66,23 @@ export const families = [
   },
 ];
 
-export function timeLeft(target: Date, now: Date) {
+export interface TimeLeftResult {
+  done: boolean;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+/**
+ * Calculates remaining time until a target Date.
+ * Pure function with integer breakdown for days, hours, minutes, seconds.
+ */
+export function timeLeft(target: Date, now: Date = new Date()): TimeLeftResult {
   const ms = target.getTime() - now.getTime();
-  if (ms <= 0) return { done: true, days: 0, hours: 0, minutes: 0, seconds: 0 };
+  if (ms <= 0) {
+    return { done: true, days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
   const s = Math.floor(ms / 1000);
   return {
     done: false,
