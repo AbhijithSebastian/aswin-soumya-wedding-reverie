@@ -34,8 +34,29 @@ export const Route = createFileRoute("/")({
 function WeddingInvitationPage() {
   const [stage, setStage] = useState<"sealed" | "opening" | "open">("sealed");
 
+  const resetScrollToTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  };
+
   useEffect(() => {
-    document.body.style.overflow = stage === "open" ? "" : "hidden";
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    resetScrollToTop();
+  }, []);
+
+  useEffect(() => {
+    if (stage !== "open") {
+      document.body.style.overflow = "hidden";
+      resetScrollToTop();
+    } else {
+      document.body.style.overflow = "";
+      resetScrollToTop();
+    }
     return () => {
       document.body.style.overflow = "";
     };
@@ -44,9 +65,13 @@ function WeddingInvitationPage() {
   const handleOpenEnvelope = () => {
     if (stage !== "sealed") return;
     setStage("opening");
+    resetScrollToTop();
     // Start background music directly within the user click gesture stack
     window.dispatchEvent(new CustomEvent("wedding-music-play"));
-    window.setTimeout(() => setStage("open"), 1850);
+    window.setTimeout(() => {
+      setStage("open");
+      resetScrollToTop();
+    }, 1850);
   };
 
   return (

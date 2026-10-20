@@ -10,10 +10,17 @@ export function Cover({ isOpen = false }: CoverProps) {
   const [hasAnimated, setHasAnimated] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  const isRevealed = isOpen || hasAnimated;
+
   useEffect(() => {
     if (isOpen) {
       if (!hasAnimated) {
         setHasAnimated(true);
+      }
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
       }
       if (videoRef.current) {
         videoRef.current.muted = true;
@@ -58,18 +65,18 @@ export function Cover({ isOpen = false }: CoverProps) {
 
       {/* Floating Standout Hero Typography */}
       <div
-        className={`hero-text-container ${hasAnimated ? "is-revealed" : ""} relative z-10 mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-4 sm:px-6 text-center text-ivory-soft`}
+        className={`hero-text-container ${isRevealed ? "is-revealed" : ""} relative z-10 mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-4 sm:px-6 text-center text-ivory-soft`}
       >
         <p className="hero-anim-item hero-eyebrow font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.42em] text-[#fae29c] [text-shadow:_0_1px_3px_rgba(0,0,0,1),_0_2px_10px_rgba(0,0,0,0.95),_0_0_20px_rgba(0,0,0,0.9)]">
           The Wedding of
         </p>
 
-        <h1 className="mt-3 sm:mt-5 font-serif text-[clamp(2.5rem,7.5vw,5.6rem)] font-normal leading-[1.08] tracking-tight text-[#fbf7ee] [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_4px_24px_rgba(0,0,0,0.9),_0_0_35px_rgba(212,175,106,0.25)] flex flex-wrap items-center justify-center">
-          <span className="hero-anim-item hero-name-aswin inline-block">Aswin</span>
-          <span className="hero-anim-item hero-amp inline-block font-serif italic font-normal text-[#fae29c] text-[1em] mx-3.5 sm:mx-5.5 drop-shadow-[0_2px_12px_rgba(250,226,156,0.55)] [text-shadow:_0_1px_3px_rgba(0,0,0,1),_0_3px_14px_rgba(0,0,0,0.95),_0_0_22px_rgba(250,226,156,0.5)]">
+        <h1 className="hero-anim-item hero-title mt-3 sm:mt-5 font-serif text-[clamp(2.5rem,7.5vw,5.6rem)] font-normal leading-[1.08] tracking-tight text-[#fbf7ee] [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_4px_24px_rgba(0,0,0,0.9),_0_0_35px_rgba(212,175,106,0.25)] flex flex-wrap items-center justify-center">
+          <span className="inline-block">Aswin</span>
+          <span className="inline-block font-serif italic font-normal text-[#fae29c] text-[1em] mx-3.5 sm:mx-5.5 drop-shadow-[0_2px_12px_rgba(250,226,156,0.55)] [text-shadow:_0_1px_3px_rgba(0,0,0,1),_0_3px_14px_rgba(0,0,0,0.95),_0_0_22px_rgba(250,226,156,0.5)]">
             &amp;
           </span>
-          <span className="hero-anim-item hero-name-soumya inline-block">Soumya</span>
+          <span className="inline-block">Soumya</span>
         </h1>
       </div>
 
@@ -79,7 +86,7 @@ export function Cover({ isOpen = false }: CoverProps) {
           href="#invitation"
           onClick={handleScrollClick}
           aria-label="Scroll down to invitation"
-          className={`hero-scroll-indicator ${hasAnimated ? "is-revealed" : ""} pointer-events-auto group flex flex-col items-center gap-1.5 select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#fae29c]/60`}
+          className={`hero-scroll-indicator ${isRevealed ? "is-revealed" : ""} pointer-events-auto group flex flex-col items-center gap-1.5 select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#fae29c]/60`}
         >
           <svg
             className="scroll-arrow w-3.5 h-3.5 text-[#fae29c] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]"
