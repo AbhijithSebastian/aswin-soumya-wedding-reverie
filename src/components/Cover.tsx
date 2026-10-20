@@ -1,16 +1,47 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface CoverProps {
   isOpen?: boolean;
 }
 
-const SCENIC_POSTER = "/images/scenic.png";
-
 export function Cover({ isOpen = false }: CoverProps) {
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const isRevealed = isOpen || hasAnimated;
+
+  const startPlayback = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.loop = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay policy or low-power mode fallback: dark charcoal background remains active
+      });
+    }
+  }, []);
+
+  const markVideoReady = useCallback(() => {
+    setIsVideoReady(true);
+  }, []);
+
+  useEffect(() => {
+    // Attempt playback immediately on mount for browsers supporting muted inline autoplay
+    startPlayback();
+
+    // Begin playback immediately on user wax seal click gesture
+    const handleGesturePlay = () => {
+      startPlayback();
+    };
+
+    window.addEventListener("wedding-video-play", handleGesturePlay);
+    return () => {
+      window.removeEventListener("wedding-video-play", handleGesturePlay);
+    };
+  }, [startPlayback]);
 
   useEffect(() => {
     if (isOpen) {
@@ -22,13 +53,17 @@ export function Cover({ isOpen = false }: CoverProps) {
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
       }
-      if (videoRef.current) {
-        videoRef.current.muted = true;
-        videoRef.current.loop = true;
-        videoRef.current.play().catch(() => {});
-      }
+      startPlayback();
     }
-  }, [isOpen, hasAnimated]);
+  }, [isOpen, hasAnimated, startPlayback]);
+
+  // Check if video is already ready when component mounts
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && video.readyState >= 2) {
+      setIsVideoReady(true);
+    }
+  }, []);
 
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -40,23 +75,23 @@ export function Cover({ isOpen = false }: CoverProps) {
   };
 
   return (
-    <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden">
-      {/* Cinematic Hero Video with Poster Fallback */}
+    <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#161719]">
+      {/* Cinematic Hero Video */}
       <video
         ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        poster={SCENIC_POSTER}
-        className="cover-video absolute inset-0 h-full w-full object-cover object-center"
+        preload="auto"
+        onLoadedData={markVideoReady}
+        onPlaying={markVideoReady}
+        onCanPlay={markVideoReady}
+        className={`cover-video absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-out ${
+          isVideoReady ? "opacity-100" : "opacity-0"
+        }`}
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
-        <img
-          src={SCENIC_POSTER}
-          alt="Stone arch with blossoms opening onto a golden-hour mountain lake"
-          className="cover-img absolute inset-0 h-full w-full object-cover object-[50%_60%]"
-        />
       </video>
 
       {/* Cinematic Contrast Overlay to make video deep & rich */}

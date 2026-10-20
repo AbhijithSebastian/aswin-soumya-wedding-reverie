@@ -66,8 +66,9 @@ function WeddingInvitationPage() {
     if (stage !== "sealed") return;
     setStage("opening");
     resetScrollToTop();
-    // Start background music directly within the user click gesture stack
+    // Start background music and video playback directly within the user click gesture stack
     window.dispatchEvent(new CustomEvent("wedding-music-play"));
+    window.dispatchEvent(new CustomEvent("wedding-video-play"));
     window.setTimeout(() => {
       setStage("open");
       resetScrollToTop();
