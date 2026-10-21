@@ -1,10 +1,9 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
-<!-- LOVABLE:END -->
+# Aswin & Soumya — Wedding Invitation Project
+
+This repository hosts the official wedding invitation web application for Aswin & Soumya, deployed via Vercel.
+
+## Guidelines for AI Assistants & Contributors
+
+- **Preserve Wedding Details**: Ensure event dates, venues, countdowns, family details, and photo galleries remain accurate and consistent with canonical records in `src/lib/wedding.ts`.
+- **Maintain High Visual Quality**: Maintain the refined aesthetic, typography, audio synthesis, and smooth animations (envelope reveal, ambient audio controls, interactive maps).
+- **Git Hygiene**: Keep commits atomic and descriptive. Maintain working branch stability.
