@@ -34,7 +34,7 @@ const photos: PhotoItem[] = [
     pos: "object-[50%_15%]",
   },
   {
-    src: "/images/couple6.jpg",
+    src: "/images/couple6.png",
     alt: "Aswin and Soumya",
     pos: "object-[50%_75%]",
   },
