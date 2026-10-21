@@ -25,7 +25,16 @@ export const Route = createFileRoute("/")({
           "Sunday, 29 November 2026 · Vakathanam, Kottayam. Your presence and blessings will make our day complete.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Aswin & Soumya Wedding" },
+      { property: "og:image", content: "/images/couple1.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Aswin & Soumya · Wedding Invitation" },
+      {
+        name: "twitter:description",
+        content:
+          "Sunday, 29 November 2026 · Vakathanam, Kottayam. Your presence and blessings will make our day complete.",
+      },
+      { name: "twitter:image", content: "/images/couple1.jpg" },
     ],
   }),
   component: WeddingInvitationPage,
